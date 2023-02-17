@@ -69,6 +69,7 @@ function hidequestion() {
 }
 // used to get rid of the question boxes
 function transition() {
+  timeleft.setAttribute("class", "unhide headerright")
   start.setAttribute("class", "hide");
   retry.setAttribute("class", "hide");
   button1.setAttribute("class", "unhide");
@@ -78,7 +79,8 @@ function transition() {
   scoredisplay.setAttribute("class", "unhide");
   initials.setAttribute("class", "hide");
   submit.setAttribute("class", "hide");
-  highscoretable.setAttribute("class", "hide");
+  highscoretable.setAttribute("class", "hide")
+  clearscores.setAttribute("class", "hide");
 }
 // used to hide and show the unneeded and needed content for the quiz
 function highscoretransition() {
