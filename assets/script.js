@@ -8,12 +8,17 @@ var retry = document.querySelector("#retry");
 var initials = document.querySelector("#initials");
 var submit = document.querySelector("#submit");
 var timeleft = document.querySelector("#time");
-var timeremain = 60;
+var viewhighscores = document.querySelector("#highscore");
 var answerdisplay = document.querySelector("#answer");
 var scoredisplay = document.querySelector("#score");
 var clearscores = document.querySelector("#clear");
+var high1 = document.querySelector("#high1");
+var highscoretable = document.querySelector("#highscores");
+// declared global variables for manipulation through JS
 var qnum = 0;
 var correct = 0;
+var timeremain = 60;
+// declared vars global so they have a base value as multiple functions are accessing
 var questions = [
   {
     quest: "What would you use to store multiple values in a single variable?",
@@ -55,14 +60,14 @@ var questions = [
     answer: "document.querySelector('nacho')",
   },
 ];
-
+// questions in arrays so they can be easily displayed and cycled through
 function hidequestion() {
   button1.setAttribute("class", "hide");
   button2.setAttribute("class", "hide");
   button3.setAttribute("class", "hide");
   button4.setAttribute("class", "hide");
 }
-
+// used to get rid of the question boxes
 function transition() {
   start.setAttribute("class", "hide");
   retry.setAttribute("class", "hide");
@@ -73,25 +78,27 @@ function transition() {
   scoredisplay.setAttribute("class", "unhide");
   initials.setAttribute("class", "hide");
   submit.setAttribute("class", "hide");
+  highscoretable.setAttribute("class", "hide");
 }
-
+// used to hide and show the unneeded and needed content for the quiz
 function highscoretransition() {
-    start.setAttribute("class", "hide");
-    button1.setAttribute("class", "hide");
-    button2.setAttribute("class", "hide");
-    button3.setAttribute("class", "hide");
-    button4.setAttribute("class", "hide");
-    scoredisplay.setAttribute("class", "hide");
-    initials.setAttribute("class", "hide");
-    submit.setAttribute("class", "hide");
-    clearscores.setAttribute("class", "unhide");
-    qdisplay.textContent = ("High Scores");
-  }
-
-
+  start.setAttribute("class", "unhide")
+  button1.setAttribute("class", "hide");
+  button2.setAttribute("class", "hide");
+  button3.setAttribute("class", "hide");
+  button4.setAttribute("class", "hide");
+  scoredisplay.setAttribute("class", "hide");
+  initials.setAttribute("class", "hide");
+  submit.setAttribute("class", "hide");
+  clearscores.setAttribute("class", "unhide");
+  highscoretable.setAttribute("class", "unhide");
+  qdisplay.textContent = "High Scores";
+}
+//used to go to the high score page
 function unhidetimer() {
   timeleft.setAttribute("class", "unhide headerright");
 }
+// needed to unhide the timer, had an issue with doubling
 
 function timer() {
   var timerInterval = setInterval(function () {
@@ -105,7 +112,7 @@ function timer() {
     }
   }, 1000);
 }
-
+// timer for the quiz
 function quiz() {
   qnum = 0;
   timeremain = 60;
@@ -113,7 +120,7 @@ function quiz() {
   advance();
   scoredisplay.textContent = "";
 }
-
+// used to start the quiz and reset time/score/correct
 function advance() {
   qdisplay.textContent = questions[qnum].quest;
   button1.textContent = questions[qnum].choice[0];
@@ -121,7 +128,7 @@ function advance() {
   button3.textContent = questions[qnum].choice[2];
   button4.textContent = questions[qnum].choice[3];
 }
-
+// used to move through questions and display the questions that are in the array
 function checkquestion(ans) {
   if (questions[qnum].answer === questions[qnum].choice[ans]) {
     correct++;
@@ -147,20 +154,30 @@ function checkquestion(ans) {
     submit.setAttribute("class", "unhide");
   }
 }
-
+// adds to score, subtracts from time, ends the quiz when done and brings you to submit high score screen
 function addhighscore(event) {
-  event.preventDefault(); 
+  event.preventDefault();
   if (initials === "") {
     alert("You must record your initials");
-    return; } else {  
-      var playerscore = {
+    return;
+  } else {
+    var playerscore = {
       Initials: initials.value,
-      Score: (correct + "/5"),
-    }
-    localStorage.setItem("playerscore", JSON.stringify(playerscore))
+      Score: correct + "/5",
+    };
+    localStorage.setItem("playerscore", JSON.stringify(playerscore));
+    var hsadd = JSON.parse(localStorage.getItem("playerscore"));
+    high1.textContent += hsadd.Initials + " " + hsadd.Score;
   }
   highscoretransition();
+  start.setAttribute("class", "hide");
 }
+//adds high score 
+function clearhighscores() {
+  window.localStorage.removeItem("playerscore");
+  high1.textContent = "";
+}
+// clear high score
 
 
 start.addEventListener("click", quiz);
@@ -173,6 +190,9 @@ button1.addEventListener("click", () => checkquestion("0"));
 button2.addEventListener("click", () => checkquestion("1"));
 button3.addEventListener("click", () => checkquestion("2"));
 button4.addEventListener("click", () => checkquestion("3"));
-submit.addEventListener("click", function(event){
+submit.addEventListener("click", function (event) {
   addhighscore(event);
 });
+clearscores.addEventListener("click", clearhighscores);
+highscore.addEventListener("click", highscoretransition);
+//event listeners to trigger functions
