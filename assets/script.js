@@ -69,7 +69,7 @@ function hidequestion() {
 }
 // used to get rid of the question boxes
 function transition() {
-  timeleft.setAttribute("class", "unhide headerright")
+  timeleft.setAttribute("class", "unhide headerright");
   start.setAttribute("class", "hide");
   retry.setAttribute("class", "hide");
   button1.setAttribute("class", "unhide");
@@ -79,12 +79,12 @@ function transition() {
   scoredisplay.setAttribute("class", "unhide");
   initials.setAttribute("class", "hide");
   submit.setAttribute("class", "hide");
-  highscoretable.setAttribute("class", "hide")
+  highscoretable.setAttribute("class", "hide");
   clearscores.setAttribute("class", "hide");
 }
 // used to hide and show the unneeded and needed content for the quiz
 function highscoretransition() {
-  start.setAttribute("class", "unhide")
+  start.setAttribute("class", "unhide");
   button1.setAttribute("class", "hide");
   button2.setAttribute("class", "hide");
   button3.setAttribute("class", "hide");
@@ -162,7 +162,7 @@ function checkquestion(ans) {
 // adds to score, subtracts from time, ends the quiz when done and brings you to submit high score screen
 function addhighscore(event) {
   event.preventDefault();
-  if (initials === "") {
+  if (initials.value === "") {
     alert("You must record your initials");
     return;
   } else {
@@ -177,13 +177,12 @@ function addhighscore(event) {
   highscoretransition();
   start.setAttribute("class", "hide");
 }
-//adds high score 
+//adds high score
 function clearhighscores() {
   window.localStorage.removeItem("playerscore");
   high1.textContent = "";
 }
 // clear high score
-
 
 start.addEventListener("click", quiz);
 start.addEventListener("click", transition);
