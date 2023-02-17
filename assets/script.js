@@ -93,6 +93,9 @@ function highscoretransition() {
   clearscores.setAttribute("class", "unhide");
   highscoretable.setAttribute("class", "unhide");
   qdisplay.textContent = "High Scores";
+  answerdisplay.textContent = "";
+  timeleft.setAttribute("class", "hide");
+  timeremain += 1000;
 }
 //used to go to the high score page
 function unhidetimer() {
